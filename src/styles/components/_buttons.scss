@@ -1,0 +1,127 @@
+// Componentes de botones
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  text-align: center;
+  text-decoration: none;
+  border: $border-width solid transparent;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  @include transition();
+  @include focus-ring;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  // Variantes de color
+  &--primary {
+    background-color: $primary-color;
+    color: white;
+    @include button-shadow($primary-color);
+
+    &:hover:not(:disabled) {
+      background-color: darken($primary-color, 5%);
+    }
+  }
+
+  &--secondary {
+    background-color: $secondary-color;
+    color: white;
+    @include button-shadow($secondary-color);
+
+    &:hover:not(:disabled) {
+      background-color: darken($secondary-color, 5%);
+    }
+  }
+
+  &--success {
+    background-color: $success-color;
+    color: white;
+    @include button-shadow($success-color);
+
+    &:hover:not(:disabled) {
+      background-color: darken($success-color, 5%);
+    }
+  }
+
+  &--warning {
+    background-color: $warning-color;
+    color: white;
+    @include button-shadow($warning-color);
+
+    &:hover:not(:disabled) {
+      background-color: darken($warning-color, 5%);
+    }
+  }
+
+  &--danger {
+    background-color: $error-color;
+    color: white;
+    @include button-shadow($error-color);
+
+    &:hover:not(:disabled) {
+      background-color: darken($error-color, 5%);
+    }
+  }
+
+  &--outline {
+    background-color: transparent;
+    border-color: $primary-color;
+    color: $primary-color;
+
+    &:hover:not(:disabled) {
+      background-color: $primary-color;
+      color: white;
+    }
+  }
+
+  &--ghost {
+    background-color: transparent;
+    color: $primary-color;
+
+    &:hover:not(:disabled) {
+      background-color: rgba($primary-color, 0.1);
+    }
+  }
+
+  // Tamaños
+  &--sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+  }
+
+  &--lg {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-lg;
+  }
+
+  &--xl {
+    padding: $spacing-lg $spacing-xl;
+    font-size: $font-size-xl;
+  }
+
+  // Ancho completo
+  &--full {
+    width: 100%;
+  }
+
+  // Con icono
+  &__icon {
+    margin-right: $spacing-xs;
+
+    &--right {
+      margin-right: 0;
+      margin-left: $spacing-xs;
+    }
+
+    &--only {
+      margin: 0;
+    }
+  }
+}

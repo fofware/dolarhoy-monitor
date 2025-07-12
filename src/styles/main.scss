@@ -1,0 +1,139 @@
+// Archivo principal de estilos
+@import "variables";
+@import "mixins";
+@import "base";
+
+// Importar componentes
+@import "components/buttons";
+@import "components/cards";
+@import "components/forms";
+
+// Estilos específicos del proyecto DolarHoy
+.currency-monitor {
+  @include card;
+  margin-bottom: $spacing-lg;
+
+  &__header {
+    @include flex-center;
+    justify-content: space-between;
+    margin-bottom: $spacing-md;
+
+    h2 {
+      margin: 0;
+      color: $primary-color;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: $spacing-md;
+
+    @include responsive(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__item {
+    @include card;
+    text-align: center;
+    @include hover-lift;
+
+    &--positive {
+      border-left: 4px solid $success-color;
+    }
+
+    &--negative {
+      border-left: 4px solid $error-color;
+    }
+
+    &--neutral {
+      border-left: 4px solid $secondary-color;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $text-secondary;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__value {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__change {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+
+    &--positive {
+      color: $success-color;
+    }
+
+    &--negative {
+      color: $error-color;
+    }
+
+    &--neutral {
+      color: $text-muted;
+    }
+  }
+}
+
+// Estilos para los scripts de automatización
+.automation-status {
+  @include flex-center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+
+  &--running {
+    background-color: rgba($primary-color, 0.1);
+    color: $primary-color;
+  }
+
+  &--success {
+    background-color: rgba($success-color, 0.1);
+    color: $success-color;
+  }
+
+  &--error {
+    background-color: rgba($error-color, 0.1);
+    color: $error-color;
+  }
+
+  &__icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// Loading states
+.loading {
+  @include loading-animation;
+}
+
+// Responsive utilities
+@include responsive(sm) {
+  .hidden-sm {
+    display: none;
+  }
+}
+
+@include responsive(md) {
+  .hidden-md {
+    display: none;
+  }
+}
+
+@include responsive(lg) {
+  .hidden-lg {
+    display: none;
+  }
+}

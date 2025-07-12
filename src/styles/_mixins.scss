@@ -1,0 +1,107 @@
+// Mixins útiles para el proyecto
+
+// Mixin para truncar texto
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Mixin para flexbox centrado
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Mixin para transiciones suaves
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+// Mixin para sombras de botones
+@mixin button-shadow($color: $primary-color) {
+  box-shadow: 0 2px 4px rgba($color, 0.2);
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba($color, 0.3);
+  }
+
+  &:active {
+    box-shadow: 0 1px 2px rgba($color, 0.4);
+  }
+}
+
+// Mixin para media queries responsivas
+@mixin responsive($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  }
+  @if $breakpoint == md {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  }
+  @if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+  @if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  }
+  @if $breakpoint == 2xl {
+    @media (min-width: $breakpoint-2xl) {
+      @content;
+    }
+  }
+}
+
+// Mixin para hover states
+@mixin hover-lift {
+  @include transition(transform);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// Mixin para focus states accesibles
+@mixin focus-ring($color: $primary-color) {
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color, 0.1);
+  }
+}
+
+// Mixin para gradientes
+@mixin gradient($start: $primary-color, $end: darken($primary-color, 10%)) {
+  background: linear-gradient(135deg, $start 0%, $end 100%);
+}
+
+// Mixin para card styles
+@mixin card {
+  background: $bg-primary;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  padding: $spacing-lg;
+}
+
+// Mixin para animaciones de loading
+@mixin loading-animation {
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

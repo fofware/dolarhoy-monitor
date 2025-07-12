@@ -1,0 +1,25 @@
+{
+  "recommendations": [
+    "github.copilot",
+    "github.copilot-chat",
+    "github.vscode-pull-request-github",
+    "eamodio.gitlens",
+    "github.vscode-github-actions",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode.vscode-json",
+    "stylelint.vscode-stylelint",
+    "ecmel.vscode-html-css",
+    "pranaygp.vscode-css-peek",
+    "mrmlnc.vscode-scss",
+    "glenn2223.live-sass",
+    "bierner.color-info",
+    "formulahendry.auto-rename-tag",
+    "ms-vscode.powershell"
+  ],
+  "unwantedRecommendations": [
+    "ms-vscode.vscode-typescript",
+    "hookyqr.beautify",
+    "bradlc.vscode-tailwindcss"
+  ]
+}

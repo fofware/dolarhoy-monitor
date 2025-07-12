@@ -1,0 +1,34 @@
+{
+  "name": "dolarhoy-monitor",
+  "version": "1.0.0",
+  "description": "Monitor de cotizaciones del dólar en Argentina desde dolarhoy.com",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "watch": "tsc --watch"
+  },
+  "keywords": [
+    "dolar",
+    "argentina",
+    "cotizacion",
+    "scraping"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "fs-extra": "^11.2.0",
+    "mongodb": "^6.7.0",
+    "playwright": "^1.53.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.10.0",
+    "dotenv": "^16.5.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  }
+}
