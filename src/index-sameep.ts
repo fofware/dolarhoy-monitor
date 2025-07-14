@@ -1,8 +1,7 @@
-import { chromium } from "playwright";
 import * as dotenv from "dotenv";
-import * as path from "path";
 import * as fs from "fs-extra";
-import { time } from "console";
+import * as path from "path";
+import { chromium } from "playwright";
 
 dotenv.config();
 
@@ -57,7 +56,8 @@ async function loginSameep(page: any): Promise<{ success: boolean; error?: strin
 }
 const readComprobantes = async (page: any): Promise<any> => {
   try {
-    const tableData:any[] = [];
+    const tableData: any[] = [];
+    await page.waitForTimeout(2000); // Esperar a que se cargue la página de comprobantes
     await page.waitForSelector('table[id="GridContainerTbl"]', { timeout: 10000 });
     // Leer los datos de la tabla de comprobantes
     const table = await page.locator('table[id="GridContainerTbl"]').locator('tbody');
@@ -77,12 +77,16 @@ const readComprobantes = async (page: any): Promise<any> => {
       const cleanData = rowData.map((data:any) => data.replace(" ","").trim()); // Limpiar espacios en blanco
       console.log("Fila de comprobante: ", rowIndex, "de ", rowCount, cleanData[1], cleanData[8], cleanData[9], cleanData[11]);
 
-/*
+
       const btn = await cells[14].locator('img.BlobContentReadonlyMedio', { timeout: 5000 });
-      if (await btn?.count() === 0) {
+      const btnDisabled = await btn.getAttribute('style');
+
+      console.log("btnDisabled", btnDisabled);
+
+      if ( await btn?.count() === 0 || btnDisabled?.includes("display:none") ) {
         console.log("No se encontró el botón de PDF en esta fila, saltando...");
         continue; // Si no hay botón, saltar a la siguiente fila
-      } 
+      }
       await page.waitForTimeout(1000)
       await btn.click(); // Click en el botón de PDF
       const factura = await page.waitForSelector('div.gx-responsive-popup.gx-popup-centered.PopupBorder.gx-popup.gx-popup-default.gx-popup-initial', { timeout: 15000 }).catch((err: any) => {
@@ -96,8 +100,28 @@ const readComprobantes = async (page: any): Promise<any> => {
           console.error("Error al esperar el popup de PDF:", err.message || String(err));
           return null; // Si no se encuentra el popup, retornar null
         });
-        // Aquí podrías agregar lógica para extraer el contenido del PDF si es necesario
-        // Por ejemplo, podrías descargar el PDF o extraer texto si es posible
+        const frame = page.frame({ name: 'gxp0_ifrm' }); // By name
+        if (!frame) {
+          console.error("No se pudo encontrar el frame del popup de PDF");
+          continue; // Si no se encuentra el frame, saltar a la siguiente fila
+        }
+        await frame.waitForTimeout(1000); // Esperar a que se cargue el contenido del popup
+        //await page.locator('div.PopupContent.gx-popup-content.gx-popup-pdf').waitFor({ state: 'visible' });
+  const downloadPromise = page.waitForEvent('download');
+  const download = await downloadPromise;
+  await page.locator('#gxp0_cls').click();
+  await page.locator('.gx-mask').click();
+        /*
+        const emb = await frame.locator('embed'); // Ajustar el selector según el HTML real
+        if (await emb.count() === 0) {
+          console.error("No se encontró el elemento embed en el popup de PDF");
+          continue; // Si no hay embed, saltar a la siguiente fila
+        }
+        await emb.locator('cr-icon-button#download').click(); // Ajustar el selector según el HTML real
+        // Esperar a que se descargue el PDF
+        await page.waitForTimeout(5000); // Ajustar el tiempo según sea necesario
+        console.log("PDF descargado o abierto en el popup");
+        */
         await page.waitForTimeout(1000)
         // Cerrar el popup de PDF
         await page.locator('span.PopupHeaderButton.gx-popup-close').click().catch(
@@ -110,7 +134,7 @@ const readComprobantes = async (page: any): Promise<any> => {
       }
       //await page.locator('div.PopupContent.gx-popup-content.gx-popup-pdf').waitFor({ state: 'visible' });
       //await page.waitForTimeout(3000); // Esperar a que se cargue el contenido del popup
-*/    
+
     }
     await page.goBack();
     await page.waitForTimeout(1000); // Esperar a que se cargue la página de comprobantes
@@ -126,7 +150,7 @@ const readSaldos = async (page: any): Promise<any> => {
   try {
     // Esperar a que la tabla de saldos esté visible
     //await page.waitForSelector('table[id="GridContainerTbl"]', { timeout: 5000 });
-    
+
     // Leer los datos de la tabla de saldos
     //await page.locator('span[id="span_W0018SOC_NUMERO"]').waitFor({ state: 'visible' });
     //await page.waitForSelector('span[id="span_W0018SOC_APELLI"]', { timeout: 10000 }).catch((err: any) => {
@@ -190,7 +214,11 @@ const readClientData = async (page: any): Promise<any> => {
   const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext();
   const page = await context.newPage();
-  
+  page.on('dialog', async dialog => {
+    console.log(dialog.message());
+    await dialog.dismiss();
+  });
+  await page.evaluate(() => alert('1'));
   const result = await loginSameep(page);
   if (!result.success) {
     console.error("Error en login:", result.error);
@@ -220,4 +248,7 @@ const readClientData = async (page: any): Promise<any> => {
   //await page.screenshot({ path: path.join(__dirname, '..', 'facturas', 'sameep_saldosocio_debug.png') });
   //const clientData = await readClientData(page);
   // El navegador queda abierto para inspección manual
+  //await browser.close();
+  //await mongoClient.close();
+
 })();
