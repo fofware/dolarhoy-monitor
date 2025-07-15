@@ -67,3 +67,7 @@ facturas/*.jpg
 *.DS_Store
 .AppleDouble
 .LSOverride
+
+# Archicos de trabajo
+datos/
+facturas/
